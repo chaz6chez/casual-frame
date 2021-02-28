@@ -1,0 +1,29 @@
+{
+  "name": "chaz6chez/casual-frame",
+  "type": "library",
+  "keywords": [
+    "casual",
+    "frame"
+  ],
+  "license": "MIT",
+  "description": "一个漫不经心的适合常驻内存PHP程序的框架核心组件.",
+  "authors": [
+    {
+      "name": "chaz6chez",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "250220719@qq.com",
+    "issues": "https://github.com/chaz6chez/casual-frame/issues",
+    "source": "https://github.com/chaz6chez/casual-frame"
+  },
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "CasualFrame\\": "src/"
+    }
+  }
+}
