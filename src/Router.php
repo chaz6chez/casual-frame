@@ -21,8 +21,9 @@ class Router
      * 静态调用
      * @param string $method
      * @param array $arguments
+     * @return Route
      */
-    public static function __callStatic(string $method, array $arguments)
+    public static function __callStatic(string $method, array $arguments) : Route
     {
         [$route, $callback] = $arguments;
         if (($method = strtolower($method)) === 'any') {
@@ -30,6 +31,7 @@ class Router
         } else {
             self::addRoute($method, $route, $callback);
         }
+        return self::$_routes[$route];
     }
 
     /**
