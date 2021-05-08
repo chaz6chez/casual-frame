@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Internal\Kernel;
+namespace Kernel;
 
-use Internal\Kernel\Protocols\MiddlewareInterface;
+use Kernel\Protocols\MiddlewareInterface;
 
 /**
  * 路由类
  * Class Route
- * @package Internal\Kernel
+ * @package Kernel
  */
 class Route
 {

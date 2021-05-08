@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Internal\Kernel\Protocols;
+namespace Kernel\Protocols;
 
 interface MiddlewareInterface {
     public function process(\Closure $next, ...$param);

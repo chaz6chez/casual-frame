@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Internal\Kernel;
+namespace Kernel;
 
-use Internal\Kernel\Commands\Connections;
-use Internal\Kernel\Commands\Reload;
-use Internal\Kernel\Commands\Restart;
-use Internal\Kernel\Commands\Start;
-use Internal\Kernel\Commands\Status;
-use Internal\Kernel\Commands\Stop;
-use Internal\Kernel\Protocols\HandlerInterface;
-use Internal\Kernel\Protocols\ListenerInterface;
+use Kernel\Commands\Connections;
+use Kernel\Commands\Reload;
+use Kernel\Commands\Restart;
+use Kernel\Commands\Start;
+use Kernel\Commands\Status;
+use Kernel\Commands\Stop;
+use Kernel\Protocols\HandlerInterface;
+use Kernel\Protocols\ListenerInterface;
 use Symfony\Component\Console\Application;
 
 class ApplicationFactory

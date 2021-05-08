@@ -11,7 +11,7 @@ if(!function_exists('C')){
      * @return array|mixed|null
      */
     function C(string $name = null, $default = null) {
-        return \Internal\Kernel\Config::get($name, $default);
+        return \Kernel\Config::get($name, $default);
     }
 }
 
@@ -26,7 +26,7 @@ if(!function_exists('E')){
      * @return array|mixed|null
      */
     function E(string $name = null, $default = null) {
-        return \Internal\Kernel\Env::get($name, $default);
+        return \Kernel\Env::get($name, $default);
     }
 }
 
@@ -55,7 +55,7 @@ if(!function_exists('run')){
      * @return Closure
      */
     function run(array $callables, callable $init, ...$param) : Closure {
-        return \Internal\Kernel\Middlewares::run($callables, $init, ...$param);
+        return \Kernel\Middlewares::run($callables, $init, ...$param);
     }
 }
 

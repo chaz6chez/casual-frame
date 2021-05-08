@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Internal\Kernel;
+namespace Kernel;
 
-use Internal\Kernel\Protocols\HandlerInterface;
-use Internal\Kernel\Protocols\ListenerInterface;
+use Kernel\Protocols\HandlerInterface;
+use Kernel\Protocols\ListenerInterface;
 use Workerman\Worker;
 
 abstract class AbstractProcess extends Worker implements HandlerInterface{

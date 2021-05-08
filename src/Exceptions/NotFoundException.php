@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Internal\Kernel\Exceptions;
+namespace Kernel\Exceptions;
 
 use Psr\Container\NotFoundExceptionInterface;
 

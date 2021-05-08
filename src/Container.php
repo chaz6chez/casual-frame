@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Internal\Kernel;
-use Internal\Kernel\Exceptions\ContainerException;
-use Internal\Kernel\Exceptions\NotFoundException;
+namespace Kernel;
+use Kernel\Exceptions\ContainerException;
+use Kernel\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 
 /**
  * 静态容器类
  * Class Container
- * @package Internal\Kernel
+ * @package Kernel
  */
 class Container implements ContainerInterface
 {

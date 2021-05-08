@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Internal\Kernel;
+namespace Kernel;
 
-use Internal\Kernel\Protocols\MiddlewareInterface;
+use Kernel\Protocols\MiddlewareInterface;
 use Closure;
 
 /**
  * 中间件管理器
  *  用于收集中间件(实现MiddlewareInterface的类)
  * Class Middlewares
- * @package Internal\Kernel
+ * @package Kernel
  */
 class Middlewares
 {
