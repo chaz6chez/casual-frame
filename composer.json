@@ -21,7 +21,8 @@
   },
   "require": {
     "php": ">=7.2",
-    "symfony/console": "^5.2"
+    "symfony/console": "^5.2",
+    "workerman/workerman": "^3.5"
   },
   "autoload": {
     "psr-4": {
