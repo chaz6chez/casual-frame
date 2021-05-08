@@ -7,8 +7,10 @@ use Kernel\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 
 /**
- * 静态容器类
+ * 实现了简易的单例容器
  * Class Container
+ * @author chaz6chez <250220719@qq.com>
+ * @version 1.0.0 2021-05-09
  * @package Kernel
  */
 class Container implements ContainerInterface

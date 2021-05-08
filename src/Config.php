@@ -3,6 +3,12 @@ declare(strict_types=1);
 
 namespace Kernel;
 
+/**
+ * Class Config
+ * @author chaz6chez <250220719@qq.com>
+ * @version 1.0.0 2021-05-09
+ * @package Kernel
+ */
 class Config {
 
     /**

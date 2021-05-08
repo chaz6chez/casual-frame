@@ -13,6 +13,12 @@ use Kernel\Protocols\HandlerInterface;
 use Kernel\Protocols\ListenerInterface;
 use Symfony\Component\Console\Application;
 
+/**
+ * Class ApplicationFactory
+ * @author chaz6chez <250220719@qq.com>
+ * @version 1.0.0 2021-05-09
+ * @package Kernel
+ */
 class ApplicationFactory
 {
     public static $name    = '3y-clearing-server';
@@ -36,6 +42,9 @@ class ApplicationFactory
         return self::$_commands;
     }
 
+    /**
+     * 主程序启动器
+     */
     public static function application(){
         $process = Config::get('process');
         try {
@@ -46,12 +55,13 @@ class ApplicationFactory
                     $handle->count = isset($config['count']) ? $config['count'] : 1;
                     $handle->reloadable = isset($config['reloadable']) ? $config['reloadable'] : true;
                     $handle->reusePort = isset($config['reusePort']) ? $config['reusePort'] : true;
-                    if(
-                        $handle instanceof ListenerInterface and
-                        isset($config['listen'])
-                    ){
-                        $handle->setSocketName($config['listen']);
-                    }
+                }
+                if(
+                    $handle instanceof ListenerInterface and
+                    $handle instanceof AbstractProcess and
+                    isset($config['listen'])
+                ){
+                    $handle->setSocketName($config['listen']);
                 }
             }
         }catch (\Throwable $throwable){
@@ -60,6 +70,10 @@ class ApplicationFactory
         AbstractProcess::runAll();
     }
 
+    /**
+     * 入口启动器
+     * @return Application
+     */
     public function __invoke() : Application
     {
         $this->_env();
@@ -71,10 +85,16 @@ class ApplicationFactory
         return $this->_app;
     }
 
+    /**
+     * config init
+     */
     protected function _config(){
         Config::load(config_path());
     }
 
+    /**
+     * env init
+     */
     protected function _env(){
         Env::load(bin_path() . '/.env');
     }

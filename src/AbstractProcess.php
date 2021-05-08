@@ -7,6 +7,12 @@ use Kernel\Protocols\HandlerInterface;
 use Kernel\Protocols\ListenerInterface;
 use Workerman\Worker;
 
+/**
+ * 用于启动workerman进程的适配器
+ * @author chaz6chez <250220719@qq.com>
+ * @version 1.0.0 2021-05-09
+ * @package Kernel
+ */
 abstract class AbstractProcess extends Worker implements HandlerInterface{
 
     /**

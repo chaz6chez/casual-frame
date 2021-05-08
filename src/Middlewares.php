@@ -7,9 +7,9 @@ use Kernel\Protocols\MiddlewareInterface;
 use Closure;
 
 /**
- * 中间件管理器
- *  用于收集中间件(实现MiddlewareInterface的类)
- * Class Middlewares
+ * 用于收集并管理MiddlewareInterface的中间件管理类
+ * @author chaz6chez <250220719@qq.com>
+ * @version 1.0.0 2021-05-09
  * @package Kernel
  */
 class Middlewares

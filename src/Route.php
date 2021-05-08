@@ -6,8 +6,9 @@ namespace Kernel;
 use Kernel\Protocols\MiddlewareInterface;
 
 /**
- * 路由类
  * Class Route
+ * @author chaz6chez <250220719@qq.com>
+ * @version 1.0.0 2021-05-09
  * @package Kernel
  */
 class Route

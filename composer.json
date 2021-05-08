@@ -7,7 +7,7 @@
     "daemon"
   ],
   "license": "MIT",
-  "description": "一个漫不经心的适合常驻内存PHP程序的框架核心组件.",
+  "description": "Low performance Service Framework Component for PHP based on Workerman.",
   "authors": [
     {
       "name": "chaz6chez",
