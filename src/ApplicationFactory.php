@@ -43,12 +43,19 @@ class ApplicationFactory
     }
 
     /**
-     * 主程序启动器
+     * 进程启动器
+     * @param string|null $app
      */
-    public static function application(){
+    public static function application(?string $app = null){
         $process = Config::get('process');
+        if($app !== null and !isset($process[$app])){
+            exit('Not found the app');
+        }
         try {
             foreach ($process as $name => $config){
+                if($app !== null and $app !== $name){
+                    continue;
+                }
                 $handle = Container::instance()->make($config['handler']);
                 if($handle instanceof AbstractProcess){
                     $handle->name = $name ?? 'unknown';

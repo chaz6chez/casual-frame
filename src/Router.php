@@ -32,11 +32,10 @@ class Router
     {
         [$route, $callback] = $arguments;
         if (($method = strtolower($method)) === 'any') {
-            self::addRoute(['notice', 'normal'], $route, $callback);
+            return self::addRoute(['notice', 'normal'], $route, $callback);
         } else {
-            self::addRoute($method, $route, $callback);
+            return self::addRoute($method, $route, $callback);
         }
-        return self::$_routes[$route];
     }
 
     /**
