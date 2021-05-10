@@ -58,6 +58,7 @@ class ApplicationFactory
                 }
                 $handle = Container::instance()->make($config['handler']);
                 if($handle instanceof AbstractProcess){
+                    $handle = ($handle)();
                     $handle->name = $name ?? 'unknown';
                     $handle->count = isset($config['count']) ? $config['count'] : 1;
                     $handle->reloadable = isset($config['reloadable']) ? $config['reloadable'] : true;
