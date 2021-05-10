@@ -89,7 +89,7 @@ class Router
         }
 
         try {
-            Middlewares::run($route->getMiddlewares(), $route->getCallback());
+            return call_user_func(Middlewares::run($route->getMiddlewares(), $route->getCallback()));
         }catch (\Throwable $throwable){
             throw new \RuntimeException('Dispatch Callback Exception',500, $throwable);
         }
