@@ -21,7 +21,7 @@ use Symfony\Component\Console\Application;
  */
 class ApplicationFactory
 {
-    public static $name    = '3y-clearing-server';
+    public static $name    = 'casual-core';
     public static $version = '1.0.0';
 
     protected static $_commands = [
@@ -72,13 +72,17 @@ class ApplicationFactory
 
     /**
      * 入口启动器
+     * @param string|null $name
+     * @param string|null $version
      * @return Application
      */
-    public function __invoke() : Application
+    public function __invoke(?string $name = null, ?string $version = null) : Application
     {
+        self::$name = $name ?? self::$name;
+        self::$version = $version ?? self::$version;
         $this->_env();
         $this->_config();
-        $this->_app = new Application(static::$name, static::$version);
+        $this->_app = new Application(self::$name, self::$version);
         foreach (self::commands() as $command){
             $this->_app->add(new $command);
         }
