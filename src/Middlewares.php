@@ -80,7 +80,7 @@ class Middlewares
                 return $pipe($carry, ...$param);
             };
         }, function () use ($init, $param) {
-            $init(...$param);
+            return $init(...$param);
         });
     }
 }
