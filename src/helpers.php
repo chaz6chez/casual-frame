@@ -31,6 +31,24 @@ if(!function_exists('E')){
 }
 
 /**
+ * 获取容器，如没有配置，默认以框架自带容器启动
+ */
+if(!function_exists('Co')){
+    function Co() : Psr\Container\ContainerInterface{
+        return \Kernel\Config::get('container', \Kernel\Container::instance());
+    }
+}
+
+/**
+ * 短周期
+ */
+if(!function_exists('make')){
+    function make(string $id, ...$constructor) : object {
+        return \Kernel\Container::instance()->make($id, ...$constructor);
+    }
+}
+
+/**
  * 中间件助手 - 执行业务内容
  */
 if(!function_exists('callback')){

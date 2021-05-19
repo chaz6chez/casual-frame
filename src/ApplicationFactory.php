@@ -56,7 +56,7 @@ class ApplicationFactory
                 if($app !== null and $app !== $name){
                     continue;
                 }
-                $handle = Container::instance()->make($config['handler']);
+                $handle = make($config['handler']);
                 if($handle instanceof AbstractProcess){
                     $handle = ($handle)();
                     $handle->name = $name ?? 'unknown';

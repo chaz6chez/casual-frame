@@ -45,7 +45,7 @@ class Route
         $this->_name = $name;
         $this->_callback = $callback;
         /** @var Middlewares _middlewares */
-        $this->_middlewares = Container::instance()->get(Middlewares::class);
+        $this->_middlewares = Co()->get(Middlewares::class);
     }
 
     /**
@@ -62,7 +62,7 @@ class Route
     public function middleware(string $middleware)
     {
         try{
-            $middleware = Container::instance()->get($middleware);
+            $middleware = Co()->get($middleware);
             if($middleware instanceof MiddlewareInterface){
                 $this->_middlewares->set($this->getName(), $middleware);
             }
