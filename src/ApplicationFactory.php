@@ -90,6 +90,7 @@ class ApplicationFactory
         self::$version = $version ?? self::$version;
         $this->_env();
         $this->_config();
+        $this->_log();
         $this->_app = new Application(self::$name, self::$version);
         foreach (self::commands() as $command){
             $this->_app->add(new $command);
@@ -109,5 +110,12 @@ class ApplicationFactory
      */
     protected function _env(){
         Env::load(bin_path() . '/.env');
+    }
+
+    /**
+     * log init
+     */
+    protected function _log(){
+        AbstractProcess::$logFile = runtime_path() . '/app.log';
     }
 }
