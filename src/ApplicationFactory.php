@@ -62,7 +62,6 @@ class ApplicationFactory
                     $handle->name = $name ?? 'unknown';
                     $handle->count = isset($config['count']) ? $config['count'] : 1;
                     $handle->reloadable = isset($config['reloadable']) ? $config['reloadable'] : true;
-                    $handle->reusePort = isset($config['reusePort']) ? $config['reusePort'] : true;
                 }
                 if(
                     $handle instanceof ListenerInterface and
@@ -70,6 +69,9 @@ class ApplicationFactory
                     isset($config['listen'])
                 ){
                     $handle->setSocketName($config['listen']);
+                    $handle->reusePort = isset($config['reusePort']) ? $config['reusePort'] : true;
+                    $handle->transport = isset($config['transport']) ? $config['transport'] : 'tcp';
+                    $handle->protocol = isset($config['protocol']) ? $config['protocol'] : null;
                 }
             }
         }catch (\Throwable $throwable){
