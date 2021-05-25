@@ -22,7 +22,7 @@
   "require": {
     "php": ">=7.2",
     "symfony/console": "^5.2",
-    "workerman/workerman": "^3.5",
+    "workerman/workerman": "^4.0",
     "psr/container": "^2.0"
   },
   "autoload": {
