@@ -43,6 +43,22 @@ class ApplicationFactory
     }
 
     /**
+     * @param callable $callback
+     */
+    public static function onMasterStop(callable $callback) : void
+    {
+        AbstractProcess::$onMasterStop = $callback;
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public static function onMasterReload(callable $callback) : void
+    {
+        AbstractProcess::$onMasterReload = $callback;
+    }
+
+    /**
      * 进程启动器
      * @param string|null $app
      */
