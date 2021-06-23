@@ -6,9 +6,9 @@ namespace Kernel;
 /**
  * 该路由简单实现了JsonRpc协议的两种方式
  *
- * @method static Router notice(string $route, callable $callback)
- * @method static Router normal(string $route, callable $callback)
- * @method static Router any(string $route, callable $callback)
+ * @method static Route notice(string $route, callable $callback)
+ * @method static Route normal(string $route, callable $callback)
+ * @method static Route any(string $route, callable $callback)
  *
  * @example Router.php 33 42 继承重写可适配如HTTP等其他协议
  * @author chaz6chez <250220719@qq.com>
