@@ -72,7 +72,7 @@ class Router
      * @param string $method
      * @param string $route
      * @param callable|null $error
-     * @return false|mixed
+     * @return mixed
      */
     public static function dispatch(string $method, string $route, ?callable $error = null)
     {
@@ -89,7 +89,7 @@ class Router
         }
 
         try {
-            return call_user_func(Middlewares::run($route->getMiddlewares(), $route->getCallback()));
+            return (Middlewares::run($route->getMiddlewares(), $route->getCallback()))();
         }catch (\Throwable $throwable){
             throw new \RuntimeException('Dispatch Callback Exception',500, $throwable);
         }
