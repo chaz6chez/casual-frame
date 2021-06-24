@@ -71,16 +71,16 @@ class Middlewares
      * 中间件调用程序
      * @param callable[] $callables
      * @param callable $init
-     * @param mixed ...$param
-     * @return Closure
+     * @return Closure (...$params)
      */
-    public static function run(array $callables, callable $init, ...$param) : Closure{
+    public static function run(array $callables, callable $init) : Closure
+    {
         return array_reduce($callables, function ($carry, $pipe) {
-            return function (...$param) use ($carry, $pipe) {
-                return $pipe($carry, ...$param);
+            return function (...$params) use ($carry, $pipe) {
+                return $pipe($carry, ...$params);
             };
-        }, function () use ($init, $param) {
-            return $init(...$param);
+        }, function (...$params) use ($init) {
+            return $init(...$params);
         });
     }
 }
