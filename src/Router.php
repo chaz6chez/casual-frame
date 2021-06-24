@@ -72,9 +72,10 @@ class Router
      * @param string $method
      * @param string $route
      * @param callable|null $error
+     * @param null $params
      * @return mixed
      */
-    public static function dispatch(string $method, string $route, ?callable $error = null)
+    public static function dispatch(string $method, string $route, ?callable $error = null, $params = null)
     {
         $route = self::getRoute($route);
         if (!$route or !$route->hasMethods($method)) {
@@ -87,9 +88,9 @@ class Router
             }
             throw new \RuntimeException('Not Found',404);
         }
-
         try {
-            return (Middlewares::run($route->getMiddlewares(), $route->getCallback()))();
+            $callback = Middlewares::run($route->getMiddlewares(), $route->getCallback());
+            return $params ? $callback($params) : $callback(...$route->getCallback());
         }catch (\Throwable $throwable){
             throw new \RuntimeException('Dispatch Callback Exception',500, $throwable);
         }

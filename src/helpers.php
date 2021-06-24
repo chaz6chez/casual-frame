@@ -31,6 +31,21 @@ if(!function_exists('E')){
 }
 
 /**
+ * 获取(...$params)参数中的特定对象
+ */
+if (!function_exists('G')) {
+    function G(array $params, string $class)
+    {
+        foreach ($params as $param){
+            if($param instanceof $class){
+                return $param;
+            }
+        }
+        return null;
+    }
+}
+
+/**
  * 获取容器，如没有配置，默认以框架自带容器启动
  */
 if(!function_exists('Co')){
@@ -69,11 +84,10 @@ if(!function_exists('run')){
     /**
      * @param callable[] $callables
      * @param callable $init
-     * @param mixed ...$param
      * @return Closure
      */
-    function run(array $callables, callable $init, ...$param) : Closure {
-        return \Kernel\Middlewares::run($callables, $init, ...$param);
+    function run(array $callables, callable $init) : Closure {
+        return \Kernel\Middlewares::run($callables, $init);
     }
 }
 
