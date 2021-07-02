@@ -14,12 +14,15 @@ use Closure;
  */
 class Middlewares
 {
+    const BASE = '@base';
+
     /**
      * @var callable[][]
      */
     protected $_middlewares = [];
 
     /**
+     * 设置中间件
      * @param string $name
      * @param MiddlewareInterface $middleware
      * @param bool $replace
@@ -50,11 +53,23 @@ class Middlewares
     }
 
     /**
+     * @param string $project
+     */
+    public function init(string $project){
+        $middlewares = C("middlewares.{$project}", []);
+        foreach ($middlewares as $middleware){
+            if($middleware instanceof MiddlewareInterface){
+                $this->base($middleware);
+            }
+        }
+    }
+
+    /**
      * @param MiddlewareInterface $middleware
      */
     public function base(MiddlewareInterface $middleware) : void
     {
-        $this->set('@base', $middleware);
+        $this->set(self::BASE, $middleware);
     }
 
     /**
@@ -79,7 +94,7 @@ class Middlewares
     {
         $res = $this->has($name) ? $this->_middlewares[$name] : [];
         if($base){
-            $res = array_merge(isset($this->_middlewares['@base']) ? $this->_middlewares['@base'] : [], $res);
+            $res = array_merge(isset($this->_middlewares[self::BASE]) ? $this->_middlewares[self::BASE] : [], $res);
         }
         return \array_reverse($res);
     }
