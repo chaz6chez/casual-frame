@@ -65,7 +65,7 @@ class ApplicationFactory
     public static function application(?string $app = null){
         $process = Config::get('process');
         if($app !== null and !isset($process[$app])){
-            exit('Not found the app');
+            exit('Not found the app' . PHP_EOL);
         }
         try {
             foreach ($process as $name => $config){
@@ -100,15 +100,19 @@ class ApplicationFactory
      * 入口启动器
      * @param string|null $name
      * @param string|null $version
+     * @param callable|null $func
      * @return Application
      */
-    public function __invoke(?string $name = null, ?string $version = null) : Application
+    public function __invoke(?string $name = null, ?string $version = null, ?callable $func = null) : Application
     {
         self::$name = $name ?? self::$name;
         self::$version = $version ?? self::$version;
         $this->_env();
         $this->_config();
         $this->_log();
+        if($func){
+            $func();
+        }
         $this->_app = new Application(self::$name, self::$version);
         foreach (self::commands() as $command){
             $this->_app->add(new $command);
