@@ -58,26 +58,38 @@ class Route
 
     /**
      * @param string $middleware
+     * @param bool $top
+     * @return $this
      */
-    public function middleware(string $middleware)
+    public function middleware(string $middleware, bool $top = false) : Route
     {
         try{
             $middleware = Co()->get($middleware);
             if($middleware instanceof MiddlewareInterface){
-                $this->_middlewares->set($this->getName(), $middleware);
+                if($top){
+                    $this->_middlewares->unshift($this->getName(), $middleware);
+                }else{
+                    $this->_middlewares->set($this->getName(), $middleware);
+                }
             }
         }catch (\Throwable $throwable){
             //todo
+        } finally {
+            return $this;
         }
     }
 
     /**
      * @param string[] $middlewares
+     * @param bool $top
+     * @return $this
      */
-    public function middlewares(array $middlewares){
+    public function middlewares(array $middlewares, bool $top = false) : Route
+    {
         foreach ($middlewares as $middleware){
-            $this->middleware($middleware);
+            $this->middleware($middleware, $top);
         }
+        return $this;
     }
 
     /**
