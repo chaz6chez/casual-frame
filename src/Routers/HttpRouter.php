@@ -26,6 +26,11 @@ use RuntimeException;
  */
 class HttpRouter extends AbstractRouter {
 
+    protected static $_group;
+    protected static $_methods = [
+        'get', 'post', 'put', 'patch', 'delete', 'options', 'head'
+    ];
+
     /**
      * @inheritDoc
      */
@@ -33,13 +38,32 @@ class HttpRouter extends AbstractRouter {
     {
         [$route, $callback] = $arguments;
         $route = $route[0] !== '/' ? "/{$route}" : $route;
-        if (($method = strtolower($method)) === 'any') {
-            return self::addRoute([
-                'get', 'post', 'put', 'patch', 'delete', 'options', 'head'
-            ], $route, $callback);
-        } else {
+        if (in_array($method = strtolower($method), self::$_methods)) {
             return self::addRoute([$method], $route, $callback);
+        } else {
+            return self::addRoute(self::$_methods, $route, $callback);
         }
+    }
+
+    /**
+     * @param string $group
+     * @param Route ...$routes
+     * @return Route[]
+     */
+    public static function group(string $group, Route ...$routes): array
+    {
+        self::$_group = $group[0] !== '/' ? "/{$group}" : $group;
+        foreach ($routes as $route){
+            if(!self::getRoute($routeName = self::$_group . $route->getName())){
+                self::addRoute(
+                    $route->getMethods(),
+                    $routeName,
+                    $route->getCallback()
+                )->middlewares($route->getMiddlewares());
+            }
+        }
+        self::$_group = null;
+        return $routes;
     }
 
     /**
@@ -48,7 +72,9 @@ class HttpRouter extends AbstractRouter {
      */
     public static function dispatch(string $method, string $route, ?callable $error = null, ?array $params = null)
     {
-        $route = self::getRoute($routeName = $route[0] !== '/' ? "/{$route}" : $route);
+        $routeName = $route[0] !== '/' ? "/{$route}" : $route;
+        $routeName = self::$_group ? self::$_group . $routeName : $routeName;
+        $route = self::getRoute($routeName);
         if (!$route or !$hasMethod = $route->hasMethod($method)) {
             if(!isset($hasMethod)){
                 $routes = self::getRoutes();

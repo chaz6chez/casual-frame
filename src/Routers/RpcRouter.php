@@ -22,16 +22,19 @@ use RuntimeException;
  */
 class RpcRouter extends AbstractRouter {
 
+    protected static $_methods = [
+        'notice', 'normal'
+    ];
     /**
      * @inheritDoc
      */
     public static function __callStatic(string $method, array $arguments) : Route
     {
         [$route, $callback] = $arguments;
-        if (($method = strtolower($method)) === 'any') {
-            return self::addRoute(['notice', 'normal'], $route, $callback);
-        } else {
+        if (in_array($method = strtolower($method), self::$_methods)) {
             return self::addRoute([$method], $route, $callback);
+        } else {
+            return self::addRoute(self::$_methods, $route, $callback);
         }
     }
 
