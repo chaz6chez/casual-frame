@@ -8,7 +8,7 @@ use Kernel\Protocols\MiddlewareInterface;
 /**
  * Class Route
  * @author chaz6chez <250220719@qq.com>
- * @version 1.0.0 2021-05-09
+ * @version 1.1.8 2021-08-26
  * @package Kernel
  */
 class Route
@@ -35,15 +35,15 @@ class Route
 
     /**
      * Route constructor.
-     * @param $methods
+     * @param array $methods
      * @param string $name
      * @param callable $callback
      */
-    public function __construct($methods, string $name, callable $callback)
+    public function __construct(array $methods, string $name, callable $callback)
     {
-        $this->_methods = (array) $methods;
-        $this->_name = $name;
-        $this->_callback = $callback;
+        $this->setMethods($methods);
+        $this->setName($name);
+        $this->setCallback($callback);
         /** @var Middlewares _middlewares */
         $this->_middlewares = Co()->get(Middlewares::class);
     }
@@ -54,6 +54,63 @@ class Route
     public function getName() : ?string
     {
         return $this->_name ?? null;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) : void
+    {
+        $this->_name = $name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMethods() : array
+    {
+        return $this->_methods;
+    }
+
+    /**
+     * @param array $methods
+     */
+    public function setMethods(array $methods) : void
+    {
+        $this->_methods = $methods;
+    }
+
+    /**
+     * @param string $method
+     * @return bool
+     */
+    public function hasMethod(string $method) : bool
+    {
+        return boolval(in_array(strtoupper($method), $this->_methods));
+    }
+
+    /**
+     * @return callable
+     */
+    public function getCallback() : callable
+    {
+        return $this->_callback;
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function setCallback(callable $callback) : void
+    {
+        $this->_callback = $callback;
+    }
+
+    /**
+     * @return callable[]
+     */
+    public function getMiddlewares() : array
+    {
+        return $this->_middlewares->get($this->getName(), true);
     }
 
     /**
@@ -90,34 +147,5 @@ class Route
             $this->middleware($middleware, $top);
         }
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMethods() : array
-    {
-        return $this->_methods;
-    }
-
-    public function hasMethods(string $method) : bool
-    {
-        return boolval(in_array($method,$this->_methods));
-    }
-
-    /**
-     * @return callable
-     */
-    public function getCallback() : callable
-    {
-        return $this->_callback;
-    }
-
-    /**
-     * @return callable[]
-     */
-    public function getMiddlewares() : array
-    {
-        return $this->_middlewares->get($this->getName(), true);
     }
 }
