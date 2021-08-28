@@ -26,7 +26,9 @@ use RuntimeException;
  */
 class HttpRouter extends AbstractRouter {
 
-    protected static $_group;
+    /**
+     * @var string[]
+     */
     protected static $_methods = [
         'get', 'post', 'put', 'patch', 'delete', 'options', 'head'
     ];
@@ -46,24 +48,12 @@ class HttpRouter extends AbstractRouter {
     }
 
     /**
-     * @param string $group
-     * @param Route ...$routes
-     * @return Route[]
+     * @inheritDoc
      */
     public static function group(string $group, Route ...$routes): array
     {
-        self::$_group = $group[0] !== '/' ? "/{$group}" : $group;
-        foreach ($routes as $route){
-            if(!self::getRoute($routeName = self::$_group . $route->getName())){
-                self::addRoute(
-                    $route->getMethods(),
-                    $routeName,
-                    $route->getCallback()
-                )->middlewares($route->getMiddlewares());
-            }
-        }
-        self::$_group = null;
-        return $routes;
+        $group = $group[0] !== '/' ? "/{$group}" : $group;
+        return parent::group($group, ...$routes);
     }
 
     /**

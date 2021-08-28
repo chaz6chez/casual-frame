@@ -25,6 +25,17 @@ class RpcRouter extends AbstractRouter {
     protected static $_methods = [
         'notice', 'normal'
     ];
+
+    /**
+     * @param string $group
+     * @param Route ...$routes
+     * @return mixed
+     */
+    public static function group(string $group, Route ...$routes): array
+    {
+        return parent::group($group, ...$routes);
+    }
+
     /**
      * @inheritDoc
      */
@@ -44,7 +55,7 @@ class RpcRouter extends AbstractRouter {
      */
     public static function dispatch(string $method, string $route, ?callable $error = null, ?array $params = null)
     {
-        $route = self::getRoute($route);
+        $route = self::getRoute(self::$_group ? self::$_group . $route : $route);
         if (!$route or !$hasMethod = $route->hasMethod($method)) {
             if($error){
                 try {

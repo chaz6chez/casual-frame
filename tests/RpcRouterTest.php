@@ -21,6 +21,25 @@ class RpcRouterTest extends BaseTestCase {
     /**
      * @dataProvider methodsProvider
      */
+    public function testSuccessOfGroupRoute($method){
+        $randomString = $this->_generateRandomString(4);
+        RpcRouter::group('base.', RpcRouter::$method("{$randomString}",function (){}));
+        if($method === 'any'){
+            $this->assertEquals(
+                true,
+                $this->_check(strtolower("base.{$randomString}"))
+            );
+        }else{
+            $this->assertEquals(
+                strtolower("base.{$randomString}"),
+                $this->_base->dispatch($method, strtolower("base.{$randomString}"))
+            );
+        }
+    }
+
+    /**
+     * @dataProvider methodsProvider
+     */
     public function testSuccess($method)
     {
         $this->_base->register($method, 'demo');

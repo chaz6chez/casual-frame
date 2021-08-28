@@ -9,6 +9,10 @@ use Kernel\Route;
 abstract class AbstractRouter implements RouterInterface {
 
     /**
+     * @var null|string
+     */
+    protected static $_group;
+    /**
      * @var Route[]
      */
     protected static $_routes = [];
@@ -24,6 +28,27 @@ abstract class AbstractRouter implements RouterInterface {
     final public static function debug(bool $debug = true): void
     {
         self::$_debug = $debug;
+    }
+
+    /**
+     * @param string $group
+     * @param Route ...$routes
+     * @return Route[]
+     */
+    public static function group(string $group, Route ...$routes): array
+    {
+        self::$_group = $group;
+        foreach ($routes as $route){
+            if(!self::getRoute($routeName = self::$_group . $route->getName())){
+                self::addRoute(
+                    $route->getMethods(),
+                    $routeName,
+                    $route->getCallback()
+                )->middlewares($route->getMiddlewares());
+            }
+        }
+        self::$_group = null;
+        return $routes;
     }
 
     /**
