@@ -114,6 +114,18 @@ class Route
     }
 
     /**
+     * @return String[]
+     */
+    public function getMiddlewaresString() : array
+    {
+        $middlewares = $this->_middlewares->get($this->getName(), true);
+        foreach ($middlewares as &$middleware){
+            [$middleware,] = $middleware;
+        }
+        return $middlewares;
+    }
+
+    /**
      * @param string $middleware
      * @param bool $top
      * @return $this

@@ -9,6 +9,10 @@ use Kernel\Route;
 abstract class AbstractRouter implements RouterInterface {
 
     /**
+     * @var Route[]
+     */
+    protected $_group_routes = [];
+    /**
      * @var null|string
      */
     protected static $_group;
@@ -33,22 +37,42 @@ abstract class AbstractRouter implements RouterInterface {
     /**
      * @param string $group
      * @param Route ...$routes
-     * @return Route[]
+     * @return static
      */
-    public static function group(string $group, Route ...$routes): array
+    public static function group(string $group, Route ...$routes): AbstractRouter
     {
         self::$_group = $group;
         foreach ($routes as $route){
             if(!self::getRoute($routeName = self::$_group . $route->getName())){
+                self::delRoute($route->getName());
                 self::addRoute(
                     $route->getMethods(),
                     $routeName,
                     $route->getCallback()
-                )->middlewares($route->getMiddlewares());
+                )->middlewares($route->getMiddlewaresString());
             }
         }
         self::$_group = null;
-        return $routes;
+        return Co()->get(static::class)->setGroupRoute($routes ?? []);
+    }
+
+    /**
+     * @param array $routes
+     * @return $this
+     */
+    public function setGroupRoute(array $routes) : AbstractRouter
+    {
+        $this->_group_routes = $routes;
+        return $this;
+    }
+
+    /**
+     * @param array $middlewares
+     */
+    public function middlewares(array $middlewares){
+        foreach ($this->_group_routes as $route){
+            $route->middlewares($middlewares);
+        }
     }
 
     /**
@@ -76,6 +100,16 @@ abstract class AbstractRouter implements RouterInterface {
         }
         self::$_routes[$route] = new Route($method, $route, $callback);
         return self::$_routes[$route];
+    }
+
+    /**
+     * @param string $route
+     */
+    public static function delRoute(string $route): void
+    {
+        if(isset(self::$_routes[$route])){
+            unset(self::$_routes[$route]);
+        }
     }
 
     /**

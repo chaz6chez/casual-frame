@@ -50,7 +50,7 @@ class HttpRouter extends AbstractRouter {
     /**
      * @inheritDoc
      */
-    public static function group(string $group, Route ...$routes): array
+    public static function group(string $group, Route ...$routes): AbstractRouter
     {
         $group = $group[0] !== '/' ? "/{$group}" : $group;
         return parent::group($group, ...$routes);

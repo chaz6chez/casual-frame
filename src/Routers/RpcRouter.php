@@ -27,11 +27,9 @@ class RpcRouter extends AbstractRouter {
     ];
 
     /**
-     * @param string $group
-     * @param Route ...$routes
-     * @return mixed
+     * @inheritDoc
      */
-    public static function group(string $group, Route ...$routes): array
+    public static function group(string $group, Route ...$routes): AbstractRouter
     {
         return parent::group($group, ...$routes);
     }
