@@ -120,7 +120,9 @@ class Route
     {
         $middlewares = $this->_middlewares->get($this->getName(), true);
         foreach ($middlewares as &$middleware){
-            [$middleware,] = $middleware;
+            if([$middleware,] = $middleware){
+                $middleware = get_class($middleware);
+            }
         }
         return $middlewares;
     }
