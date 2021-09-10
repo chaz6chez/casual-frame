@@ -35,11 +35,11 @@ abstract class AbstractRouter implements RouterInterface {
     }
 
     /**
-     * @param string $group
+     * @param string|null $group
      * @param Route ...$routes
      * @return static
      */
-    public static function group(string $group, Route ...$routes): AbstractRouter
+    public static function group(?string $group, Route ...$routes): AbstractRouter
     {
         self::$_group = $group;
         foreach ($routes as $route){
@@ -67,11 +67,14 @@ abstract class AbstractRouter implements RouterInterface {
     }
 
     /**
-     * @param array $middlewares
+     * @param string[] $middlewares
+     * @param bool $top
+     * @param bool $replace
      */
-    public function middlewares(array $middlewares){
+    public function middlewares(array $middlewares, bool $top = false, bool $replace = false): void
+    {
         foreach ($this->_group_routes as $route){
-            $route->middlewares($middlewares);
+            $route->middlewares($middlewares, $top, $replace);
         }
     }
 

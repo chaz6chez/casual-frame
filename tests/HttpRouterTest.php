@@ -42,6 +42,27 @@ class HttpRouterTest extends BaseTestCase {
     /**
      * @dataProvider methodsProvider
      */
+    public function testSuccessOfGroupRouteUseEmpty($method){
+        $randomString = $this->_generateRandomString(4);
+        HttpRouter::group('',
+            HttpRouter::$method("/{$randomString}",function (){})
+        );
+        if($method === 'any'){
+            $this->assertEquals(
+                true,
+                $this->_check(strtolower("/{$randomString}"))
+            );
+        }else{
+            $this->assertEquals(
+                strtolower("/{$randomString}"),
+                $this->_base->dispatch($method, strtolower("/{$randomString}"))
+            );
+        }
+    }
+
+    /**
+     * @dataProvider methodsProvider
+     */
     public function testSuccessOfRandomRoute($method)
     {
         $randomString = $this->_generateRandomString(4);

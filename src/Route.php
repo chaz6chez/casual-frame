@@ -130,17 +130,18 @@ class Route
     /**
      * @param string $middleware
      * @param bool $top
+     * @param bool $replace
      * @return $this
      */
-    public function middleware(string $middleware, bool $top = false) : Route
+    public function middleware(string $middleware, bool $top = false, bool $replace = false) : Route
     {
         try{
             $middleware = Co()->get($middleware);
             if($middleware instanceof MiddlewareInterface){
                 if($top){
-                    $this->_middlewares->unshift($this->getName(), $middleware);
+                    $this->_middlewares->unshift($this->getName(), $middleware, $replace);
                 }else{
-                    $this->_middlewares->set($this->getName(), $middleware);
+                    $this->_middlewares->set($this->getName(), $middleware, $replace);
                 }
             }
         }catch (\Throwable $throwable){
@@ -153,12 +154,13 @@ class Route
     /**
      * @param string[] $middlewares
      * @param bool $top
+     * @param bool $replace
      * @return $this
      */
-    public function middlewares(array $middlewares, bool $top = false) : Route
+    public function middlewares(array $middlewares, bool $top = false, bool $replace = false) : Route
     {
         foreach ($middlewares as $middleware){
-            $this->middleware($middleware, $top);
+            $this->middleware($middleware, $top, $replace);
         }
         return $this;
     }
