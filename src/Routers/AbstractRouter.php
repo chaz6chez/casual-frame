@@ -42,10 +42,10 @@ abstract class AbstractRouter implements RouterInterface {
     public static function group(?string $group, Route ...$routes): AbstractRouter
     {
         self::$_group = $group;
-        foreach ($routes as $route){
+        foreach ($routes as &$route){
             if(!self::getRoute($routeName = self::$_group . $route->getName())){
                 self::delRoute($route->getName());
-                self::addRoute(
+                $route = self::addRoute(
                     $route->getMethods(),
                     $routeName,
                     $route->getCallback()
