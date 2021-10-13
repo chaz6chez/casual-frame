@@ -29,12 +29,12 @@ class HttpRouterTest extends BaseTestCase {
         if($method === 'any'){
             $this->assertEquals(
                 true,
-                $this->_check(strtolower("/base/{$randomString}"))
+                $this->_check("/base/{$randomString}")
             );
         }else{
             $this->assertEquals(
-                strtolower("/base/{$randomString}"),
-                $this->_base->dispatch($method, strtolower("/base/{$randomString}"))
+                "/base/{$randomString}",
+                $this->_base->dispatch($method,"/base/{$randomString}")
             );
         }
     }
@@ -50,12 +50,12 @@ class HttpRouterTest extends BaseTestCase {
         if($method === 'any'){
             $this->assertEquals(
                 true,
-                $this->_check(strtolower("/{$randomString}"))
+                $this->_check("/{$randomString}")
             );
         }else{
             $this->assertEquals(
-                strtolower("/{$randomString}"),
-                $this->_base->dispatch($method, strtolower("/{$randomString}"))
+                "/{$randomString}",
+                $this->_base->dispatch($method, "/{$randomString}")
             );
         }
     }
@@ -70,12 +70,12 @@ class HttpRouterTest extends BaseTestCase {
         if($method === 'any'){
             $this->assertEquals(
                  true,
-                $this->_check(strtolower("/{$randomString}"))
+                $this->_check("/{$randomString}")
             );
         }else{
             $this->assertEquals(
-                strtolower("/{$randomString}"),
-                $this->_base->dispatch($method, strtolower("/{$randomString}"))
+                "/{$randomString}",
+                $this->_base->dispatch($method, "/{$randomString}")
             );
         }
     }
@@ -90,12 +90,12 @@ class HttpRouterTest extends BaseTestCase {
         if($method === 'any'){
             $this->assertEquals(
                  true,
-                $this->_check(strtolower("/{$randomString}"))
+                $this->_check("/{$randomString}")
             );
         }else{
             $this->assertEquals(
-                strtolower("/{$randomString}"),
-                $this->_base->dispatch($method, strtolower("/{$randomString}"))
+                "/{$randomString}",
+                $this->_base->dispatch($method, "/{$randomString}")
             );
         }
     }

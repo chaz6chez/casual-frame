@@ -27,12 +27,12 @@ class RpcRouterTest extends BaseTestCase {
         if($method === 'any'){
             $this->assertEquals(
                 true,
-                $this->_check(strtolower("base.{$randomString}"))
+                $this->_check("base.{$randomString}")
             );
         }else{
             $this->assertEquals(
-                strtolower("base.{$randomString}"),
-                $this->_base->dispatch($method, strtolower("base.{$randomString}"))
+                "base.{$randomString}",
+                $this->_base->dispatch($method, "base.{$randomString}")
             );
         }
     }

@@ -97,7 +97,6 @@ abstract class AbstractRouter implements RouterInterface {
      */
     public static function addRoute(array $method, string $route, callable $callback): Route
     {
-        $route = strtolower($route);
         foreach ($method as &$value){
             $value = strtoupper($value);
         }
