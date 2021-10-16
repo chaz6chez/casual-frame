@@ -61,37 +61,40 @@ class ApplicationFactory
     /**
      * 进程启动器
      * @param string|null $app
+     * @param bool $skip
      */
-    public static function application(?string $app = null){
+    public static function application(?string $app = null, bool $skip = false){
         $process = Config::get('process');
         if($app !== null and !isset($process[$app])){
             exit('Not found the app' . PHP_EOL);
         }
-        try {
-            foreach ($process as $name => $config){
-                if($app !== null and $app !== $name){
-                    continue;
+        if(!$skip){
+            try {
+                foreach ($process as $name => $config){
+                    if($app !== null and $app !== $name){
+                        continue;
+                    }
+                    $handle = make($config['handler']);
+                    if($handle instanceof AbstractProcess){
+                        $handle = ($handle)();
+                        $handle->name = $name ?? 'unknown';
+                        $handle->count = isset($config['count']) ? $config['count'] : 1;
+                        $handle->reloadable = isset($config['reloadable']) ? $config['reloadable'] : true;
+                    }
+                    if(
+                        $handle instanceof ListenerInterface and
+                        $handle instanceof AbstractProcess and
+                        isset($config['listen'])
+                    ){
+                        $handle->setSocketName($config['listen']);
+                        $handle->reusePort = isset($config['reusePort']) ? $config['reusePort'] : true;
+                        $handle->transport = isset($config['transport']) ? $config['transport'] : 'tcp';
+                        $handle->protocol = isset($config['protocol']) ? $config['protocol'] : null;
+                    }
                 }
-                $handle = make($config['handler']);
-                if($handle instanceof AbstractProcess){
-                    $handle = ($handle)();
-                    $handle->name = $name ?? 'unknown';
-                    $handle->count = isset($config['count']) ? $config['count'] : 1;
-                    $handle->reloadable = isset($config['reloadable']) ? $config['reloadable'] : true;
-                }
-                if(
-                    $handle instanceof ListenerInterface and
-                    $handle instanceof AbstractProcess and
-                    isset($config['listen'])
-                ){
-                    $handle->setSocketName($config['listen']);
-                    $handle->reusePort = isset($config['reusePort']) ? $config['reusePort'] : true;
-                    $handle->transport = isset($config['transport']) ? $config['transport'] : 'tcp';
-                    $handle->protocol = isset($config['protocol']) ? $config['protocol'] : null;
-                }
+            }catch (\Throwable $throwable){
+                exit($throwable->getMessage());
             }
-        }catch (\Throwable $throwable){
-            exit($throwable->getMessage());
         }
         AbstractProcess::runAll();
     }

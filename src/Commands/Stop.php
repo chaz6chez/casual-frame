@@ -21,7 +21,7 @@ class Stop extends Command
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int {
-        ApplicationFactory::application();
+        ApplicationFactory::application(null, true);
         return Command::SUCCESS;
     }
 }
