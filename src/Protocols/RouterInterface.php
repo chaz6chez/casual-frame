@@ -5,6 +5,7 @@ namespace Kernel\Protocols;
 
 use Kernel\Route;
 use RuntimeException;
+use Closure;
 
 interface RouterInterface {
 
@@ -18,10 +19,10 @@ interface RouterInterface {
     /**
      * @param array $method
      * @param string $route
-     * @param callable $callback
+     * @param Closure|array $callback
      * @return Route
      */
-    public static function addRoute(array $method, string $route, callable $callback) : Route;
+    public static function addRoute(array $method, string $route, $callback) : Route;
 
     /**
      * @param string $route

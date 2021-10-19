@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Kernel;
 
 use Kernel\Protocols\MiddlewareInterface;
+use Closure;
 
 /**
  * Class Route
@@ -24,9 +25,9 @@ class Route
     protected $_methods = [];
 
     /**
-     * @var callable
+     * @var callable|array
      */
-    protected $_callback = '';
+    protected $_callback;
 
     /**
      * @var Middlewares
@@ -37,12 +38,18 @@ class Route
      * Route constructor.
      * @param array $methods
      * @param string $name
-     * @param callable $callback
+     * @param Closure|array $callback
      */
-    public function __construct(array $methods, string $name, callable $callback)
+    public function __construct(array $methods, string $name, $callback)
     {
         $this->setMethods($methods);
         $this->setName($name);
+        if(
+            !$callback instanceof Closure and
+            !is_array($callback)
+        ){
+            throw new \RuntimeException("Illegal route callback [{$name}]");
+        }
         $this->setCallback($callback);
         /** @var Middlewares _middlewares */
         $this->_middlewares = Co()->get(Middlewares::class);
@@ -90,17 +97,22 @@ class Route
     }
 
     /**
-     * @return callable
+     * @param bool $make
+     * @return null|Closure|array
      */
-    public function getCallback() : callable
+    public function getCallback(bool $make = false)
     {
+        if($make and !$this->_callback instanceof Closure){
+            [$class, $method] = $this->_callback;
+            return [make($class), $method];
+        }
         return $this->_callback;
     }
 
     /**
-     * @param callable $callback
+     * @param Closure|array $callback
      */
-    public function setCallback(callable $callback) : void
+    public function setCallback($callback) : void
     {
         $this->_callback = $callback;
     }

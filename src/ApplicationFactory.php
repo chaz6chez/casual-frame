@@ -116,7 +116,7 @@ class ApplicationFactory
         if($func){
             $func();
         }
-        $this->_app = new Application(self::$name, self::$version);
+        $this->_app = make(Application::class, self::$name, self::$version);
         foreach (self::commands() as $command){
             $this->_app->add(new $command);
         }

@@ -5,6 +5,7 @@ namespace Kernel\Routers;
 
 use Kernel\Protocols\RouterInterface;
 use Kernel\Route;
+use Closure;
 
 abstract class AbstractRouter implements RouterInterface {
 
@@ -92,13 +93,19 @@ abstract class AbstractRouter implements RouterInterface {
      * 增加路由
      * @param array $method
      * @param string $route
-     * @param callable $callback
+     * @param Closure|array $callback
      * @return Route
      */
-    public static function addRoute(array $method, string $route, callable $callback): Route
+    public static function addRoute(array $method, string $route, $callback): Route
     {
         foreach ($method as &$value){
             $value = strtoupper($value);
+        }
+        if(
+            !$callback instanceof Closure and
+            !is_array($callback)
+        ){
+            throw new \RuntimeException("Illegal route callback [{$route}]");
         }
         self::$_routes[$route] = new Route($method, $route, $callback);
         return self::$_routes[$route];
