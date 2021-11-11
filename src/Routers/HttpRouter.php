@@ -115,7 +115,7 @@ class HttpRouter extends AbstractRouter {
         try {
             $callback = $route->getCallback(true);
             $func = Middlewares::run($route->getMiddlewares(), $callback);
-            return $params ? $func(...$params) : $func(...$callback);
+            return $params ? $func(...$params) : $func();
         }catch (Throwable $throwable){
             throw new RuntimeException(
                 "Dispatch Callback Exception [{$routeName}-{$method}]",
