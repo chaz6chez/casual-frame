@@ -52,4 +52,16 @@ abstract class AbstractProcess extends Worker implements HandlerInterface{
         }
         return $this;
     }
+
+    /**
+     * @param string|null $log
+     */
+    public static function kill(?string $log = null){
+        if(self::$_masterPid === ($pid = posix_getpid())){
+            self::stopAll(SIGKILL, $log);
+        }else{
+            self::log("(pid:{$pid}) {$log}");
+            posix_kill($pid, SIGKILL);
+        }
+    }
 }
