@@ -49,7 +49,7 @@ class Config {
 
     /**
      * @param string|null $key
-     * @param null $default
+     * @param mixed|null $default
      * @return mixed
      */
     public static function get(?string $key = null, $default = null)

@@ -10,19 +10,14 @@ namespace Kernel;
  * @package Kernel
  */
 class Env {
-    /**
-     * @var bool $_init
-     */
+
+    /** @var bool  */
     protected static $_init = false;
 
-    /**
-     * @var array 环境变量数据
-     */
+    /** @var array 环境变量数据 */
     protected static $_env = [];
 
-    /**
-     * @var string
-     */
+    /** @var string  */
     protected static $_file = '';
 
     /**

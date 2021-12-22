@@ -15,13 +15,10 @@ use Psr\Container\ContainerInterface;
  */
 class Container implements ContainerInterface
 {
-    /**
-     * @var Container
-     */
+    /** @var Container */
     protected static $_self;
-    /**
-     * @var object[]
-     */
+
+    /** @var object[]  */
     protected $_instances = [];
 
     /**

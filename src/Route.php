@@ -14,24 +14,16 @@ use Closure;
  */
 class Route
 {
-    /**
-     * @var string
-     */
-    protected $_name = null;
+    /** @var string */
+    protected $_name;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $_methods = [];
 
-    /**
-     * @var callable|array
-     */
+    /** @var callable|array */
     protected $_callback;
 
-    /**
-     * @var Middlewares
-     */
+    /** @var Middlewares  */
     protected $_middlewares;
 
     /**

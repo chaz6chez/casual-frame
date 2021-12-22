@@ -5,6 +5,4 @@ namespace Kernel\Exceptions;
 
 use Psr\Container\ContainerExceptionInterface;
 
-class ContainerException extends \RuntimeException implements ContainerExceptionInterface {
-
-}
+class ContainerException extends \RuntimeException implements ContainerExceptionInterface {}

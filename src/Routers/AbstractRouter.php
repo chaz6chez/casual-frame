@@ -9,22 +9,16 @@ use Closure;
 
 abstract class AbstractRouter implements RouterInterface {
 
-    /**
-     * @var Route[]
-     */
+    /** @var Route[]  */
     protected $_group_routes = [];
-    /**
-     * @var null|string
-     */
+
+    /** @var null|string */
     protected static $_group;
-    /**
-     * @var Route[]
-     */
+
+    /** @var Route[]  */
     protected static $_routes = [];
 
-    /**
-     * @var bool
-     */
+    /** @var bool  */
     protected static $_debug = false;
 
     /**

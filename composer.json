@@ -21,6 +21,8 @@
   },
   "require": {
     "php": ">=7.2",
+    "ext-posix": "*",
+    "ext-pcntl": "*",
     "symfony/console": "^5.2",
     "workerman/workerman": "^4.0",
     "psr/container": "^2.0"

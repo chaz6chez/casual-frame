@@ -13,8 +13,8 @@ use Workerman\Worker;
  * @version 1.0.0 2021-05-09
  * @package Kernel
  */
-abstract class AbstractProcess extends Worker implements HandlerInterface{
-
+abstract class AbstractProcess extends Worker implements HandlerInterface
+{
     /**
      * @param string $socket_name
      * @param array $context_option

@@ -12,13 +12,15 @@ class Reload extends Command
 {
     protected static $defaultName = 'reload';
 
-    protected function configure() : void{
+    protected function configure() : void
+    {
         $this
             ->setDescription('Reload the application')
             ->setHelp("This command allows you to reload the application");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int {
+    protected function execute(InputInterface $input, OutputInterface $output) : int
+    {
         ApplicationFactory::application(null, true);
         return Command::SUCCESS;
     }

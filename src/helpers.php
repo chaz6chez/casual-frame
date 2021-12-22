@@ -122,4 +122,3 @@ if(!function_exists('process_path')){
         return ROOT_PATH . '/process';
     }
 }
-
