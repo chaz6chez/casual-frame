@@ -28,9 +28,9 @@ class Routes extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $headers = $detail = $input->getOption('details') ?
-            ['uri', 'method', 'callback', 'middleware'] :
-            ['uri', 'method'];
+        $headers = ($detail = $input->getOption('details')) ?
+            ['name (uri)', 'method', 'callback', 'middleware'] :
+            ['name (uri)', 'method', 'callback'];
         $rows = [];
         foreach (AbstractRouter::getRoutes() as $route) {
             foreach ($route->getMethods() as $method) {
@@ -38,7 +38,7 @@ class Routes extends Command
                 $cb = $cb instanceof \Closure ? 'Closure' : (is_array($cb) ? json_encode($cb) : var_export($cb, 1));
                 $rows[] = $detail ?
                     [$route->getName(), $method, $cb, json_encode($route->getMiddlewaresString() ?: [])] :
-                    [$route->getName(), $method];
+                    [$route->getName(), $method, $cb];
             }
         }
         $table = new Table($output);
