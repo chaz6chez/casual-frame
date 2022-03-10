@@ -80,7 +80,8 @@ abstract class Instance{
      * 获取时间
      * @return int
      */
-    public static function now() : int{
+    public static function now() : int
+    {
         return self::$_time = isset($GLOBALS['NOW_TIME']) ? (int)$GLOBALS['NOW_TIME'] : time();
     }
 
@@ -88,7 +89,8 @@ abstract class Instance{
      * 单例模式
      * @return static
      */
-    final public static function instance() : Instance{
+    final public static function instance() : Instance
+    {
         self::$_class = get_called_class();
         /** @var static $res */
         $res = Co()->get(self::$_class);
@@ -99,7 +101,8 @@ abstract class Instance{
      * new
      * @return static
      */
-    final public static function factory() : Instance{
+    final public static function factory() : Instance
+    {
         self::$_class = get_called_class();
         /** @var static $res */
         $res = make(self::$_class);

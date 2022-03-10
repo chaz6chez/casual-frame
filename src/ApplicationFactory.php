@@ -6,6 +6,7 @@ namespace Kernel;
 use Kernel\Commands\Connections;
 use Kernel\Commands\Reload;
 use Kernel\Commands\Restart;
+use Kernel\Commands\Routes;
 use Kernel\Commands\Start;
 use Kernel\Commands\Status;
 use Kernel\Commands\Stop;
@@ -30,7 +31,8 @@ class ApplicationFactory
         Status::class,
         Restart::class,
         Reload::class,
-        Connections::class
+        Connections::class,
+        Routes::class
     ];
     protected $_app;
 
@@ -43,39 +45,58 @@ class ApplicationFactory
     }
 
     /**
+     * @param callable $callback
+     */
+    public static function onMasterStop(callable $callback) : void
+    {
+        AbstractProcess::$onMasterStop = $callback;
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public static function onMasterReload(callable $callback) : void
+    {
+        AbstractProcess::$onMasterReload = $callback;
+    }
+
+    /**
      * 进程启动器
      * @param string|null $app
+     * @param bool $skip
      */
-    public static function application(?string $app = null){
+    public static function application(?string $app = null, bool $skip = false){
         $process = Config::get('process');
         if($app !== null and !isset($process[$app])){
             exit('Not found the app' . PHP_EOL);
         }
-        try {
-            foreach ($process as $name => $config){
-                if($app !== null and $app !== $name){
-                    continue;
+        if(!$skip){
+            try {
+                foreach ($process as $name => $config){
+                    if($app !== null and $app !== $name){
+                        continue;
+                    }
+                    $handle = make($config['handler']);
+                    if($handle instanceof AbstractProcess){
+                        $handle = ($handle)();
+                        $handle->name = $name ?? 'unknown';
+                        $handle->count = isset($config['count']) ? $config['count'] : 1;
+                        $handle->reloadable = isset($config['reloadable']) ? $config['reloadable'] : true;
+                    }
+                    if(
+                        $handle instanceof ListenerInterface and
+                        $handle instanceof AbstractProcess and
+                        isset($config['listen'])
+                    ){
+                        $handle->setSocketName($config['listen']);
+                        $handle->reusePort = isset($config['reusePort']) ? $config['reusePort'] : true;
+                        $handle->transport = isset($config['transport']) ? $config['transport'] : 'tcp';
+                        $handle->protocol = isset($config['protocol']) ? $config['protocol'] : null;
+                    }
                 }
-                $handle = make($config['handler']);
-                if($handle instanceof AbstractProcess){
-                    $handle = ($handle)();
-                    $handle->name = $name ?? 'unknown';
-                    $handle->count = isset($config['count']) ? $config['count'] : 1;
-                    $handle->reloadable = isset($config['reloadable']) ? $config['reloadable'] : true;
-                }
-                if(
-                    $handle instanceof ListenerInterface and
-                    $handle instanceof AbstractProcess and
-                    isset($config['listen'])
-                ){
-                    $handle->setSocketName($config['listen']);
-                    $handle->reusePort = isset($config['reusePort']) ? $config['reusePort'] : true;
-                    $handle->transport = isset($config['transport']) ? $config['transport'] : 'tcp';
-                    $handle->protocol = isset($config['protocol']) ? $config['protocol'] : null;
-                }
+            }catch (\Throwable $throwable){
+                exit($throwable->getMessage());
             }
-        }catch (\Throwable $throwable){
-            exit($throwable->getMessage());
         }
         AbstractProcess::runAll();
     }
@@ -97,7 +118,7 @@ class ApplicationFactory
         if($func){
             $func();
         }
-        $this->_app = new Application(self::$name, self::$version);
+        $this->_app = make(Application::class, self::$name, self::$version);
         foreach (self::commands() as $command){
             $this->_app->add(new $command);
         }

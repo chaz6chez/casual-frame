@@ -13,15 +13,17 @@ class Status extends Command
 {
     protected static $defaultName = 'status';
 
-    protected function configure() : void{
+    protected function configure() : void
+    {
         $this
             ->addOption('daemon', 'd',InputOption::VALUE_NONE, 'DAEMON mode')
             ->setDescription('Display statistics')
             ->setHelp("This command allows you to view statistics");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int {
-        ApplicationFactory::application();
+    protected function execute(InputInterface $input, OutputInterface $output) : int
+    {
+        ApplicationFactory::application(null, true);
         return Command::SUCCESS;
     }
 }

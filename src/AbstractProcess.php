@@ -13,8 +13,8 @@ use Workerman\Worker;
  * @version 1.0.0 2021-05-09
  * @package Kernel
  */
-abstract class AbstractProcess extends Worker implements HandlerInterface{
-
+abstract class AbstractProcess extends Worker implements HandlerInterface
+{
     /**
      * @param string $socket_name
      * @param array $context_option
@@ -51,5 +51,17 @@ abstract class AbstractProcess extends Worker implements HandlerInterface{
             $this->_context = null;
         }
         return $this;
+    }
+
+    /**
+     * @param string|null $log
+     */
+    public static function kill(?string $log = null){
+        if(self::$_masterPid === ($pid = posix_getpid())){
+            self::stopAll(SIGKILL, $log);
+        }else{
+            self::log("(pid:{$pid}) {$log}");
+            posix_kill($pid, SIGKILL);
+        }
     }
 }

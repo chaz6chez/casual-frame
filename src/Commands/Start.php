@@ -13,14 +13,16 @@ class Start extends Command
 {
     protected static $defaultName = 'start';
 
-    protected function configure() : void{
+    protected function configure() : void
+    {
         $this
             ->addOption('daemon', 'd',InputOption::VALUE_NONE, 'DAEMON mode')
             ->setDescription('Start the application')
             ->setHelp("This command allows you to start the application");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int {
+    protected function execute(InputInterface $input, OutputInterface $output) : int
+    {
         ApplicationFactory::application();
         return Command::SUCCESS;
     }

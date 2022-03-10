@@ -14,7 +14,8 @@ class Response {
      * Response constructor.
      * @param array $data
      */
-    public function __construct(array $data = []) {
+    public function __construct(array $data = [])
+    {
         if($data){
             $this->_init($data);
         }
@@ -31,7 +32,8 @@ class Response {
     /**
      * @param array $data
      */
-    protected function _init(array $data){
+    protected function _init(array $data)
+    {
         $this->ext     = isset($data['ext']) ? $data['ext'] : null;
         $this->data    = isset($data['data']) ? $data['data'] : null;
         $this->message = isset($data['message']) ? $data['message'] : 'success';
@@ -66,9 +68,10 @@ class Response {
      * @param string|null $code
      * @param null $ext
      * @param string $msg
-     * @return Response
+     * @return $this
      */
-    public function success($data = null, ?string $code = '0', $ext = null, string $msg = 'success') : Response{
+    public function success($data = null, ?string $code = '0', $ext = null, string $msg = 'success') : Response
+    {
         $this->status = 1;
         $this->data = $data;
         $this->message = $msg;
@@ -86,9 +89,10 @@ class Response {
     }
 
     /**
-     * @return Response
+     * @return $this
      */
-    public function throwError() : Response {
+    public function throwError() : Response
+    {
         return $this;
     }
 
@@ -97,7 +101,8 @@ class Response {
      * @param bool $object
      * @return \ReflectionProperty[]
      */
-    public function getFields($object = false) : array{
+    public function getFields($object = false) : array
+    {
         try{
             $class = new \ReflectionClass($this);
             $private = $class->getProperties(\ReflectionProperty::IS_PRIVATE);
@@ -117,38 +122,43 @@ class Response {
 
     /**
      * 有错误信息
-     * @return $this|bool
+     * @return bool
      */
-    public function hasError() : bool {
+    public function hasError() : bool
+    {
         return boolval($this->status !== 1);
     }
 
     /**
      * @return int
      */
-    public function getStatus() : int{
+    public function getStatus() : int
+    {
         return $this->status;
     }
 
     /**
      * @return string
      */
-    public function getMessage() : string {
+    public function getMessage() : string
+    {
         return $this->message;
     }
 
     /**
      * @return string
      */
-    public function getCode() : string{
+    public function getCode() : string
+    {
         return $this->code;
     }
 
     /**
      * @param null $key
-     * @return null
+     * @return mixed
      */
-    public function getData($key = null){
+    public function getData($key = null)
+    {
         if($key){
             return isset($this->data[$key]) ? $this->data[$key] : null;
         }
@@ -156,9 +166,10 @@ class Response {
     }
 
     /**
-     * @return null
+     * @return mixed
      */
-    public function getExt(){
+    public function getExt()
+    {
         return $this->ext;
     }
 }

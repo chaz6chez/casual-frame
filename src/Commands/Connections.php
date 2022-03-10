@@ -12,14 +12,16 @@ class Connections extends Command
 {
     protected static $defaultName = 'connections';
 
-    protected function configure() : void{
+    protected function configure() : void
+    {
         $this
             ->setDescription('Display connections status')
             ->setHelp("This command allows you to check the connections status");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int {
-        ApplicationFactory::application();
+    protected function execute(InputInterface $input, OutputInterface $output) : int
+    {
+        ApplicationFactory::application(null, true);
         return Command::SUCCESS;
     }
 }

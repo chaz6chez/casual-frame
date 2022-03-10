@@ -16,9 +16,7 @@ class Middlewares
 {
     const BASE = '@base';
 
-    /**
-     * @var callable[][]
-     */
+    /** @var callable[][]  */
     protected $_middlewares = [];
 
     /**

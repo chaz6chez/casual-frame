@@ -20,8 +20,9 @@ class Stop extends Command
             ->setHelp("This command allows you to stop the application");
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int {
-        ApplicationFactory::application();
+    protected function execute(InputInterface $input, OutputInterface $output) : int
+    {
+        ApplicationFactory::application(null, true);
         return Command::SUCCESS;
     }
 }
