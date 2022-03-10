@@ -35,10 +35,8 @@ final class Commands
      */
     public static function commands() : array
     {
-        if(!self::$_commandObj){
-            foreach (self::$_commands as $command){
-                self::$_commandObj[] = make($command);
-            }
+        foreach (self::$_commands as $command){
+            self::$_commandObj[] = make($command);
         }
         return self::$_commandObj;
     }
