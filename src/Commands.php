@@ -44,13 +44,15 @@ final class Commands
     }
 
     /**
-     * @param string $class
+     * @param string ...$commands
      */
-    public static function register(string $class)
+    public static function register(string ...$commands)
     {
-        if(class_exists($class, false)){
-            if(($command = make($class)) instanceof Command){
-                self::$_commandObj[] = $command;
+        foreach ($commands as $command){
+            if(is_string($command) and class_exists($command)){
+                if(($command = make($command)) instanceof Command){
+                    self::$_commandObj[] = $command;
+                }
             }
         }
     }
