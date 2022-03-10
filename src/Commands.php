@@ -6,7 +6,6 @@ namespace Kernel;
 use Kernel\Commands\Connections;
 use Kernel\Commands\Reload;
 use Kernel\Commands\Restart;
-use Kernel\Commands\Routes;
 use Kernel\Commands\Start;
 use Kernel\Commands\Status;
 use Kernel\Commands\Stop;
@@ -36,17 +35,23 @@ final class Commands
      */
     public static function commands() : array
     {
-        foreach (self::$_commands as $command){
-            self::$_commandObj[] = make($command);
+        if(!self::$_commandObj){
+            foreach (self::$_commands as $command){
+                self::$_commandObj[] = make($command);
+            }
         }
         return self::$_commandObj;
     }
 
     /**
-     * @param Command $command
+     * @param string $class
      */
-    public static function register(Command $command)
+    public static function register(string $class)
     {
-        self::$_commandObj[] = $command;
+        if(class_exists($class, false)){
+            if(($command = make($class)) instanceof Command){
+                self::$_commandObj[] = $command;
+            }
+        }
     }
 }
