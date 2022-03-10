@@ -3,16 +3,9 @@ declare(strict_types=1);
 
 namespace Kernel;
 
-use Kernel\Commands\Connections;
-use Kernel\Commands\Reload;
-use Kernel\Commands\Restart;
-use Kernel\Commands\Routes;
-use Kernel\Commands\Start;
-use Kernel\Commands\Status;
-use Kernel\Commands\Stop;
-use Kernel\Protocols\HandlerInterface;
 use Kernel\Protocols\ListenerInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Class ApplicationFactory
@@ -25,24 +18,8 @@ class ApplicationFactory
     public static $name    = 'casual-core';
     public static $version = '1.0.0';
 
-    protected static $_commands = [
-        Start::class,
-        Stop::class,
-        Status::class,
-        Restart::class,
-        Reload::class,
-        Connections::class,
-        Routes::class
-    ];
+    /** @var Application */
     protected $_app;
-
-    /**
-     * @return string[]
-     */
-    public static function commands() : array
-    {
-        return self::$_commands;
-    }
 
     /**
      * @param callable $callback
@@ -119,8 +96,10 @@ class ApplicationFactory
             $func();
         }
         $this->_app = make(Application::class, self::$name, self::$version);
-        foreach (self::commands() as $command){
-            $this->_app->add(new $command);
+        foreach (Commands::commands() as $command){
+            if($command instanceof Command){
+                $this->_app->add($command);
+            }
         }
         return $this->_app;
     }
