@@ -6,6 +6,7 @@ namespace Kernel\Commands;
 use Kernel\ApplicationFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Reload extends Command
@@ -15,7 +16,8 @@ class Reload extends Command
     protected function configure() : void
     {
         $this
-            ->setDescription('Reload the application')
+            ->addOption('graceful', 'g', InputOption::VALUE_NONE, 'graceful reload')
+            ->setDescription('Reload the application. Use mode -g to reload gracefully.')
             ->setHelp("This command allows you to reload the application");
     }
 

@@ -6,6 +6,7 @@ namespace Kernel;
 use Kernel\Commands\Connections;
 use Kernel\Commands\Reload;
 use Kernel\Commands\Restart;
+use Kernel\Commands\Routes;
 use Kernel\Commands\Start;
 use Kernel\Commands\Status;
 use Kernel\Commands\Stop;
@@ -30,7 +31,8 @@ class ApplicationFactory
         Status::class,
         Restart::class,
         Reload::class,
-        Connections::class
+        Connections::class,
+        Routes::class
     ];
     protected $_app;
 
